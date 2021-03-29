@@ -1140,12 +1140,18 @@ export default class MapController extends Component {
           break;
         case 'router':
           if (window.c4gMapsHooks !== undefined && Array.isArray(window.c4gMapsHooks.mapController_addControls)) {
-            utils.callHookFunctions(window.c4gMapsHooks.mapController_addControls, {
+            let params =  {
               mapController: this,
               Container: this.mapsControls.controlContainerTopLeft,
               component: "router",
               arrComps: result
-            });
+            };
+            utils.callHookFunctions(window.c4gMapsHooks.mapController_addControls, params);
+            if (params.module) {
+              // React.lazy(() => import(params.module));
+              React.lazy(() => import("./../../../../../RoutingBundle/Resources/public/js/components/c4g-router-view.jsx"));
+
+            }
           }
           break;
         case 'editor':

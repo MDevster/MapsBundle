@@ -13,7 +13,7 @@
 
 import React, {Component} from "react";
 
-export class Titlebar extends Component {
+export default class Titlebar extends Component {
 
   constructor(props) {
     super(props);

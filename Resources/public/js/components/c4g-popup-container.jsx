@@ -11,9 +11,9 @@
  *
  */
 
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import {getLanguage} from "./../c4g-maps-i18n";
-import {Titlebar} from "./c4g-titlebar.jsx";
+const Titlebar = React.lazy(() => import("./c4g-titlebar.jsx"));
 
 export class PopupContainer extends Component {
 
@@ -62,11 +62,13 @@ export class PopupContainer extends Component {
     return (
       <div className={className}>
         <div className={"c4g-popup-wrapper"}>
-          <Titlebar wrapperClass={headerClass} headerClass={"c4g-popup-header-headline"} header={this.props.mapData.popupHeadline || ""}
-                    closeBtnClass={"c4g-titlebar-close"} closeBtnCb={this.close} closeBtnTitle={this.language.CLOSE}
-                    detailBtnClass={""} detailBtnCb={""}>
-            {addButtons}
-          </Titlebar>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Titlebar wrapperClass={headerClass} headerClass={"c4g-popup-header-headline"} header={this.props.mapData.popupHeadline || ""}
+                      closeBtnClass={"c4g-titlebar-close"} closeBtnCb={this.close} closeBtnTitle={this.language.CLOSE}
+                      detailBtnClass={""} detailBtnCb={""}>
+              {addButtons}
+            </Titlebar>
+          </Suspense>
           <div className={"c4g-popup-content"} dangerouslySetInnerHTML={{__html: this.state.content}}/>
 
         </div>
